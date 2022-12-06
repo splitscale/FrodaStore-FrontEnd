@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link'
+import { useState } from 'react'
+import axios from 'axios';
 
 function Login() {
   return (
@@ -24,13 +26,19 @@ function Login() {
           </div>
 
           <div>
-            {/* <i className='bi bi-person-fill'> </i> */}
-            <input className='form-control mt-5 border border-dark' id='username-id' type='text' placeholder='Username' />
+            <input 
+              className='form-control mt-5 border border-dark' 
+              type='text' 
+              placeholder='Username' 
+              />
           </div>
 
           <div>
-            {/* <i className="bi bi-lock-fill"> </i> */}
-            <input className='form-control mt-4 border border-dark' id='password-id' type='password' placeholder='Password' />
+            <input 
+              className='form-control mt-4 border border-dark' 
+              type='password' 
+              placeholder='Password'
+              />
           </div>
 
           <div>    
