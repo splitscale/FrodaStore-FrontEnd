@@ -2,16 +2,15 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
-import User from "../user/user";
+import User from "../User/user";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const url = "http://localhost:3000/api/user/create"
 
-  const handleSubmit = async (event: any) => {
+  const register = async (event: any) => {
     event.preventDefault();
 
     const registerUser: User = {
@@ -77,22 +76,11 @@ function Register() {
           </div>
 
           <div>
-            <input
-              className="form-control mt-4 border border-dark"
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-
-          <div>
             <Link href="/">
               <button
                 type="button"
                 className="btn btn-info mt-5 w-100 border border-dark"
-                onClick={handleSubmit}
-              >
+                onClick={register}>
                 Register
               </button>
             </Link>

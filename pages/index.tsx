@@ -1,9 +1,33 @@
 import Head from 'next/head';
 import Link from 'next/link'
-import { useState } from 'react'
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
+import User from "../User/user";
 
 function Login() {
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const url = "http://localhost:3000/api/user/create"
+
+  const login = async (event: any) => {
+    event.preventDefault();
+
+    const loginUser: User = {
+      username,
+      password,
+    };
+
+    try {
+      const res = await axios.post(url, loginUser);
+      console.log("Post success", res.data);
+
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
   return (
     <div className='container-fluid'>
       <Head>
@@ -12,13 +36,19 @@ function Login() {
         <link rel='icon' href='/main-logo.png' />
       </Head>
 
-      <img src='logo.png' className='img-thumbnail w-25 h-25 border border-white' alt='logo.png' />
+      <img src='logo.png' 
+        className='img-thumbnail w-25 h-25 border border-white' 
+        alt='logo.png' 
+      />
 
       <div className='row'>
         <div className='col-sm-6 col-md-5 m-auto'>
 
           <div className='text-center'>
-            <img src='user-icon.png' className='img-thumbnail border border-white' alt='user-icon.png' />
+            <img src='user-icon.png' 
+              className='img-thumbnail border border-white' 
+              alt='user-icon.png' 
+            />
           </div>
        
           <div className='fs-1 d-flex justify-content-center fw-bold'> 
@@ -30,6 +60,8 @@ function Login() {
               className='form-control mt-5 border border-dark' 
               type='text' 
               placeholder='Username' 
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               />
           </div>
 
@@ -38,12 +70,18 @@ function Login() {
               className='form-control mt-4 border border-dark' 
               type='password' 
               placeholder='Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               />
           </div>
 
           <div>    
             <Link href='/home'> 
-              <button type="button" className="btn btn-info mt-5 w-100 border border-dark">Login</button>
+              <button 
+                type="button" 
+                className="btn btn-info mt-5 w-100 border border-dark"
+                onClick={login}>
+                Login</button>
             </Link>
           </div>
 
@@ -51,7 +89,6 @@ function Login() {
             Not registered? 
             <Link href='/register'>Create an Account</Link>
           </div>
-  
         </div>
       </div>
     </div>
