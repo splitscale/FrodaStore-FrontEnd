@@ -43,9 +43,9 @@ function Register() {
       <div className="row">
         <div className="col-sm-6 col-md-5 m-auto">
           
-          <div className="text-center">
+          <div className="d-flex justify-content-center">
             <img src="user-icon.png"
-              className="img-thumbnail border border-white"
+              className="img-thumbnail border border-white w-25 h-25"
               alt="user-icon.png"
             />
           </div>
