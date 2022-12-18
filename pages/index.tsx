@@ -1,22 +1,22 @@
 import Head from 'next/head';
 import Link from 'next/link'
-import { useState } from "react";
-import axios from "axios";
 import User from "../User/user";
+import axios from "axios";
+import { useState } from "react";
 
 function Login() {
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const url = "http://localhost:3000/api/user/create"
+  const url = "http://localhost:3000/api/user/create";
 
   const login = async (event: any) => {
     event.preventDefault();
 
     const loginUser: User = {
       username,
-      password,
+      password
     };
 
     try {
@@ -55,44 +55,44 @@ function Login() {
             Sign in 
           </div>
 
-          <div>
-            <input 
-              className='form-control mt-5 border border-dark' 
-              type='text' 
-              placeholder='Username' 
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+          <form onSubmit={login}>
+            <div>
+              <input 
+                className='form-control mt-5 border border-dark' 
+                type='text' 
+                placeholder='Username' 
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
-          </div>
+            </div>
 
-          <div>
-            <input 
-              className='form-control mt-4 border border-dark' 
-              type='password' 
-              placeholder='Password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            <div>
+              <input 
+                className='form-control mt-4 border border-dark' 
+                type='password' 
+                placeholder='Password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-          </div>
+            </div>
 
-          <div>    
-            <Link href='/home'> 
+            <div>    
               <button 
-                type="button" 
+                type="submit" 
                 className="btn btn-info mt-5 w-100 border border-dark"
-                onClick={login}>
-                Login</button>
-            </Link>
-          </div>
+              >
+                Login
+              </button>
+            </div>
 
-          <div className='text-center mt-2'>
-            Not registered? 
-            <Link href='/register'>Create an Account</Link>
-          </div>
+            <div className='text-center mt-2'>
+              Not registered? 
+              <Link href='/register'>Create an Account</Link>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   )
 }
-
 export default Login;

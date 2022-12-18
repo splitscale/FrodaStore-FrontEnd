@@ -1,21 +1,21 @@
 import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
-import axios from "axios";
 import User from "../User/user";
+import axios from "axios";
+import { useState } from "react";
 
 function Register() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
-  const url = "http://localhost:3000/api/user/create"
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const register = async (event: any) => {
+  const url = "http://localhost:3000/api/user/create";
+
+  const register = async(event: any) => {
     event.preventDefault();
 
     const registerUser: User = {
       username,
-      password,
+      password
     };
 
     try {
@@ -35,17 +35,16 @@ function Register() {
         <link rel="icon" href="/main-logo.png" />
       </Head>
 
-      <img
-        src="logo.png"
+      <img src="logo.png"
         className="img-thumbnail w-25 h-25 border border-white"
         alt="logo.png"
       />
 
       <div className="row">
         <div className="col-sm-6 col-md-5 m-auto">
+          
           <div className="text-center">
-            <img
-              src="user-icon.png"
+            <img src="user-icon.png"
               className="img-thumbnail border border-white"
               alt="user-icon.png"
             />
@@ -55,36 +54,35 @@ function Register() {
             Register
           </div>
 
-          <div>
-            <input
-              className="form-control mt-5 border border-dark"
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
+          <form onSubmit={register}>
+            <div>
+              <input
+                className="form-control mt-5 border border-dark"
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
 
-          <div>
-            <input
-              className="form-control mt-4 border border-dark"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+            <div>
+              <input
+                className="form-control mt-4 border border-dark"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-          <div>
-            <Link href="/">
+            <div>
               <button
-                type="button"
-                className="btn btn-info mt-5 w-100 border border-dark"
-                onClick={register}>
-                Register
+                type="submit"
+                className="btn btn-info mt-5 w-100 border border-dark">
+                  Register
               </button>
-            </Link>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
