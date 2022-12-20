@@ -1,8 +1,8 @@
 import Head from "next/head"
 import NavBar from "../components/navBar"
-import ListOfLink from "../components/listOfLink"
 
-function Content() {
+
+function Home() {
   return (
     <div className='container-fluid'>
       
@@ -13,13 +13,9 @@ function Content() {
       </Head>
 
       <NavBar />
-
-      <main>
-        <ListOfLink/>
-      </main>
       
     </div>
   )
 }
 
-export default Content;
+export default Home;

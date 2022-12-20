@@ -45,7 +45,7 @@ function Register() {
           
           <div className="d-flex justify-content-center">
             <img src="user-icon.png"
-              className="img-thumbnail border border-white w-25 h-25"
+              className="img-thumbnail border border-white w-24 h-24"
               alt="user-icon.png"
             />
           </div>
