@@ -1,3 +1,4 @@
+
 import Head from "next/head";
 import User from "../User/user";
 import axios from "axios";
@@ -90,3 +91,4 @@ function Register() {
 }
 
 export default Register;
+

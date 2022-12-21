@@ -1,3 +1,4 @@
+
 import Head from 'next/head';
 import Link from 'next/link'
 import User from "../User/user";
@@ -95,4 +96,5 @@ function Login() {
     </div>
   )
 }
+
 export default Login;
