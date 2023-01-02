@@ -13,5 +13,8 @@ export function LogoutButton() {
     router.push('/');
   };
 
-  return <button onClick={logout}>Logout</button>;
+  return (
+    <button className='fs-5 ms-5 fw-bold ' onClick={logout}>Logout</button>
+  );
+
 }
