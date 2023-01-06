@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import ListOfContainer from '../components/listOfContainer';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import { axiosInstance } from '../lib/apiInteractor/apiInstance';
 import { getUidCookie } from '../lib/apiInteractor/cookies/getUidCookie';
 import { getAuthCookie } from '../lib/apiInteractor/cookies/getAuthCookie';

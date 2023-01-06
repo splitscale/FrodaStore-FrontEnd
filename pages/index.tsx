@@ -1,41 +1,39 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { axiosInstance } from '../lib/apiInteractor/apiInstance';
+import Head from "next/head";
+import Link from "next/link";
+import axios from "axios";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/router";
+import { UserRequest } from "../lib/user/userRequest";
 
-function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const userRequest = {
+  const data: UserRequest = {
     username: username,
     password: password,
   };
 
-  const login = async (event: any) => {
+  const handleLogin = async (event: FormEvent) => {
     event.preventDefault();
 
     try {
-      const res = await axiosInstance.post('/auth/login', userRequest);
+      const res = await axios.post("/auth/login", data);
 
-      console.log(res.data);
-      console.log(res.headers);
-
-      let authToken = res.headers['authorization'];
-
+      let authToken = res.headers["authorization"];
       console.log(authToken);
 
       if (authToken) {
-        localStorage.setItem('Authorization', authToken);
-        localStorage.setItem('uid', res.data.uid);
-        localStorage.setItem('username', res.data.username);
+        localStorage.setItem("Authorization", authToken);
+        localStorage.setItem("uid", res.data.uid);
+        localStorage.setItem("username", res.data.username);
       }
-      router.push('/home');
+      router.push("/home");
+      
     } catch (error: any) {
       console.error(error.message);
-      alert('invalid username or password');
+      alert("Invalid username or password");
     }
   };
 
@@ -67,7 +65,7 @@ function Login() {
             Sign in
           </div>
 
-          <form onSubmit={login}>
+          <form onSubmit={handleLogin}>
             <div>
               <input
                 className="form-control mt-5 border border-dark"
@@ -99,7 +97,7 @@ function Login() {
 
             <div className="text-center mt-2">
               Not registered?
-              <Link href="/register">Create an Account</Link>
+              <Link href="/register"> Create an Account </Link>
             </div>
           </form>
         </div>
@@ -107,5 +105,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;
