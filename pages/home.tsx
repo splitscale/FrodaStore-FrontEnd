@@ -69,8 +69,8 @@ export default function Home() {
                     href="/content/[containerId]"
                     as={`/content/${container.id}`}
                   >
-                    {container.name}
                     {container.title}
+                    {container.name}
                   </Link>
                 </td>
                 <td>

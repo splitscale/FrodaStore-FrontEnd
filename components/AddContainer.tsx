@@ -61,7 +61,7 @@ export function AddContainer({ onSubmit }: { onSubmit: (container: UrlContainer)
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="info" onClick={saveContainer}>
+          <Button variant="info" onClick={(e) => {saveContainer(e); handleClose();}} >
             Save Changes
           </Button>
         </Modal.Footer>
