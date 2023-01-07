@@ -1,34 +1,46 @@
-import axios from "axios";
-import React, { FormEvent, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import { UrlContainer } from "../lib/container/UrlContainer";
+import React, { FormEvent, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { UrlContainer } from '../lib/container/UrlContainer';
+import { UrlContainerRequest } from '../lib/container/UrlContainerRequest';
 
-export function AddContainer({ onSubmit }: { onSubmit: (container: UrlContainer) => void }) {
+export function AddContainer({
+  onSuccess,
+  onFail,
+}: {
+  onSuccess: (value: UrlContainer) => void;
+  onFail: (err: Error) => void;
+}) {
   const [show, setShow] = useState(false);
+  const [title, setTitle] = useState('');
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setTitle('');
+    setShow(false);
+  };
   const handleShow = () => setShow(true);
 
-  const [name, setName] = useState("");
+  function saveContainer() {
+    if (title === '') {
+      const err = new Error('Empty Container title');
 
-  const url = "http://jsonplaceholder.typicode.com/posts";
-
-  const saveContainer = async (event: FormEvent) => {
-    event.preventDefault();
-
-    const containerTitle: any = {
-      name: name,
-    };
-
-    try {
-      const res = await axios.post(url, containerTitle);
-      onSubmit(containerTitle);
-      console.log(res.data);
-    } catch (err: any) {
-      console.error(err.message)
+      alert(err);
+      onFail(err);
+      return;
     }
-  };
+
+    console.log('Implement saving api call');
+
+    // SEND THIS TO DB
+    // const newContainer: UrlContainerRequest = {
+    //   uid: 'uid here',
+    //   title: title,
+    // };
+
+    onSuccess({ id: 2, title: title });
+
+    handleClose();
+  }
 
   return (
     <div>
@@ -51,18 +63,21 @@ export function AddContainer({ onSubmit }: { onSubmit: (container: UrlContainer)
           <label className="block text-gray-600 text-sm font-normal">
             Container Title
           </label>
-          
+
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             className="h-10 w-96 border mt-2 px-2 py-2"
           ></input>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="info" onClick={(e) => {saveContainer(e); handleClose();}} >
-            Save Changes
+          <Button variant="cancel" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="info" onClick={saveContainer}>
+            Add
           </Button>
         </Modal.Footer>
       </Modal>

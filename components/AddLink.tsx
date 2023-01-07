@@ -1,8 +1,7 @@
-import axios from "axios";
-import React, { FormEvent, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import { Url } from "../lib/url/Url";
+import React, { FormEvent, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { Url } from '../lib/url/Url';
 
 export function AddLink({ onSubmit }: { onSubmit: (link: Url) => void }) {
   const [show, setShow] = useState(false);
@@ -10,9 +9,9 @@ export function AddLink({ onSubmit }: { onSubmit: (link: Url) => void }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
 
-  const url = "http://jsonplaceholder.typicode.com/posts";
+  // const url = 'http://jsonplaceholder.typicode.com/posts';
 
   const saveLink = async (event: FormEvent) => {
     event.preventDefault();
@@ -22,11 +21,11 @@ export function AddLink({ onSubmit }: { onSubmit: (link: Url) => void }) {
     };
 
     try {
-      const res = await axios.post(url, link);
-      onSubmit(link);
-      console.log(res.data);
+      // const res = await axios.post(url, link);
+      // onSubmit(link);
+      console.log('res.data');
     } catch (err: any) {
-      console.error(err.message)
+      console.error(err.message);
     }
   };
 
@@ -51,7 +50,7 @@ export function AddLink({ onSubmit }: { onSubmit: (link: Url) => void }) {
           <label className="block text-gray-600 text-sm font-normal">
             Container Title
           </label>
-          
+
           <input
             type="text"
             value={name}

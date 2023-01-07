@@ -1,38 +1,8 @@
-import Head from "next/head";
-import NavBar from "../components/navBar";
-import { useState, useEffect } from "react";
-import { AddContainer } from "../components/AddContainer";
-import { UrlContainer } from "../lib/container/UrlContainer";
-import axios from "axios";
-import Link from "next/link";
+import Head from 'next/head';
+import ContainerListTable from '../components/ContainerListTable';
+import NavBar from '../components/navBar';
 
 export default function Home() {
-  const [containers, setContainers] = useState<UrlContainer[]>([]);
-
-  const url = "http://jsonplaceholder.typicode.com/posts";
-
-  const loadContainers = async () => {
-    try {
-      const res = await axios.get(url);
-      setContainers(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    loadContainers();
-  }, []);
-
-  const addNewContainer = (newContainer: UrlContainer) => {
-    setContainers([newContainer, ...containers]);
-  };
-
-  const deleteContainer = async (container: UrlContainer) => {
-    await axios.delete(`${url}/${container.id}`);
-    setContainers(containers.filter((c: UrlContainer) => c.id !== container.id));
-  };
-
   return (
     <div>
       <Head>
@@ -43,52 +13,7 @@ export default function Home() {
 
       <NavBar />
 
-      <AddContainer onSubmit={addNewContainer} />
-
-      <div className="flex flex-col justify-center items-center">
-        <table className="outline outline-1 w-[80%] text-center rounded-t">
-          <thead className="bg-gradient-to-b from-yellow-500 to-orange-500 text-white">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                CONTAINER TITLE
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <i className="bi bi-pencil-square"> Edit </i>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <i className="bi bi-trash"> Delete </i>
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {containers.map((container: UrlContainer) => (
-              <tr key={container.id} className="border-b border-current">
-                <td className="text-left font-sans px-6 py-3 uppercase text-center">
-                  <Link
-                    href="/content/[containerId]"
-                    as={`/content/${container.id}`}
-                  >
-                    {container.title}
-                    {container.name}
-                  </Link>
-                </td>
-                <td>
-                  <button className="btn btn-info py-2"> Edit </button>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger py-2"
-                    onClick={() => deleteContainer(container)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ContainerListTable />
     </div>
   );
 }
