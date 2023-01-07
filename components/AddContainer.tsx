@@ -2,8 +2,6 @@ import axios from "axios";
 import React, { FormEvent, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { getUidCookie } from "../lib/apiInteractor/cookies/getUidCookie";
-import { getAuthCookie } from "../lib/apiInteractor/cookies/getAuthCookie";
 import { useRouter } from 'next/router';
 
 export function AddContainer() {
@@ -21,19 +19,13 @@ export function AddContainer() {
   const saveContainer = async (event: FormEvent) => {
     event.preventDefault();
 
-    const config = {
-      headers: {
-        authorization: getAuthCookie(),
-      },
-      data: {
-        uid: getUidCookie(),
+    const containerTitle: any = {
         name: name,
-      },
     };
 
     try {
-      const res = await axios.post(url, config);
-      setName(name)
+      const res = await axios.post(url, containerTitle);
+
       router.push('/');
       router.reload();
 

@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
-import axios from "axios";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { UserRequest } from "../lib/user/userRequest";
+import { axiosInstance } from "../lib/apiInteractor/apiInstance";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -19,7 +19,7 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const res = await axios.post("/auth/login", data);
+      const res = await axiosInstance.post("/auth/login", data);
 
       let authToken = res.headers["authorization"];
       console.log(authToken);
