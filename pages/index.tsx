@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { loginInteractor } from '../lib/auth/loginInteractor';
-import { parseJsonUser } from '../lib/user/parseJsonUser';
-import { logger } from '../lib/helpers/logger';
+import { User } from '../lib/user/User';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -14,14 +13,17 @@ export default function Login() {
   const handleLogin = async (event: FormEvent) => {
     event.preventDefault();
 
-    try {
-      const res = await loginInteractor({ username, password });
+    console.debug('username: ' + username);
+    console.debug('password: ' + password);
 
+    const res = await loginInteractor({ username, password });
+
+    if (res.ok) {
       const authToken = res.headers.get('authorization');
-      const user = parseJsonUser(res.json());
+      const user = (await res.json()) as User;
 
-      logger('User logged in: ' + user);
-      logger('Authorization: ' + authToken);
+      console.log('User logged in: ', user);
+      console.log('Authorization: ', authToken);
 
       if (authToken && user) {
         localStorage.setItem('Authorization', authToken);
@@ -29,8 +31,8 @@ export default function Login() {
       }
 
       router.push('/home');
-    } catch (error: any) {
-      alert('Invalid username or password');
+    } else {
+      alert('Login failed! Please try again: ' + res.status);
     }
   };
 

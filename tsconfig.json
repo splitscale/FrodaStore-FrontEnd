@@ -16,6 +16,15 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/AddContainer.tsx", "pages/content.jsx", "pages/home.jsx", "pages/content.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/AddContainer.tsx",
+    "pages/content.jsx",
+    "pages/home.jsx",
+    "pages/content.jsx",
+    "lib/container/UrlContainerResponse.ts"
+  ],
   "exclude": ["node_modules"]
 }

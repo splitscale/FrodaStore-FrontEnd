@@ -1,9 +1,8 @@
-import { apiUrl } from '../apiconfigs/getApiBaseUrl';
-import { logger } from '../helpers/logger';
+import { apiUrl } from '../apiconfigs/apiUrl';
 import { UserRequest } from '../user/userRequest';
 
 export const loginInteractor = (userRequest: UserRequest) => {
-  logger('logging in user: ' + userRequest.username);
+  console.debug('logging in user: ' + userRequest.username);
 
   return fetch(apiUrl('/auth/login'), {
     method: 'POST',

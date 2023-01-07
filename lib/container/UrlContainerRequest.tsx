@@ -1,4 +1,4 @@
 export interface UrlContainerRequest {
   uid: string;
-  title: string;
+  name: string;
 }

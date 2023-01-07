@@ -1,36 +1,32 @@
-import axios from "axios";
-import Head from "next/head";
-import { useState, useEffect } from "react";
-import { AddLink } from "../../components/AddLink";
-import NavBar from "../../components/navBar";
-import { UrlContainer } from "../../lib/container/UrlContainer";
-import { Url } from "../../lib/url/Url";
+import Head from 'next/head';
+import { useState, useEffect } from 'react';
+import { AddLink } from '../../components/AddLink';
+import NavBar from '../../components/navBar';
+import { UrlContainer } from '../../lib/container/UrlContainer';
+import { Url } from '../../lib/url/Url';
 
 export default function content() {
-  const [links, setLinks] = useState<Url[]>([]);
+  //   const [links, setLinks] = useState<Url[]>([]);
 
-  const url = "http://jsonplaceholder.typicode.com/posts";
+  // onst loadLinks = async () => {
+  //     try {
 
-  const loadLinks = async () => {
-    try {
-      const res = await axios.get(url);
-      setLinks(res.data.reverse());
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //       setLinks(res.data.reverse());
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-  useEffect(() => {
-    loadLinks();
-  }, []);
+  //   useEffect(() => {
+  //     loadLinks();
+  //   }, []);
 
   const addNewLink = (newLink: Url) => {
-    setLinks([newLink, ...links]);
+    // setLinks([newLink, ...links]);
   };
 
   const deleteLink = async (link: Url) => {
-    await axios.delete(`${url}/${link.id}`);
-    setLinks(links.filter((l: Url) => l.id !== link.id));
+    // setLinks(links.filter((l: Url) => l.id !== link.id));
   };
 
   return (
@@ -42,7 +38,7 @@ export default function content() {
 
       <NavBar />
 
-      <AddLink onSubmit={addNewLink}/>
+      <AddLink onSubmit={addNewLink} />
 
       <div className="flex flex-col justify-center items-center">
         <table className="outline outline-1 w-[80%] text-center rounded-t">

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getContainerList } from '../lib/container/get/getContainerList';
 import { UrlContainer } from '../lib/container/UrlContainer';
 import { handleFailure } from '../lib/handlers/handleFailure';
 import { AddContainer } from './AddContainer';
@@ -12,8 +13,15 @@ export default function ContainerListTable() {
     setContainers([...containers, container]);
   }
 
+  async function loadContainers() {
+    const containerList = await getContainerList();
+
+    setContainers(containerList);
+  }
+
   useEffect(() => {
-    console.log('loading containers...');
+    console.debug('loading containers...');
+    loadContainers();
   }, []);
 
   return (

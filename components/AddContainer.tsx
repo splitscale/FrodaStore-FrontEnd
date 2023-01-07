@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { apiUrl } from '../lib/apiconfigs/apiUrl';
 import { UrlContainer } from '../lib/container/UrlContainer';
 import { UrlContainerRequest } from '../lib/container/UrlContainerRequest';
+import { UrlContainerResponse } from '../lib/container/UrlContainerResponse';
+import { getAuthToken } from '../lib/localstorage/getAuthToken';
+import { getUid } from '../lib/localstorage/getUid';
 
 export function AddContainer({
   onSuccess,
@@ -20,7 +24,8 @@ export function AddContainer({
   };
   const handleShow = () => setShow(true);
 
-  function saveContainer() {
+  async function saveContainer() {
+    console.debug('[NEW CONTAINER]: ' + title);
     if (title === '') {
       const err = new Error('Empty Container title');
 
@@ -29,17 +34,47 @@ export function AddContainer({
       return;
     }
 
-    console.log('Implement saving api call');
+    // CHECK FOR CREDENTIALS
+    const uid = getUid();
+    const authToken = getAuthToken();
+
+    if (uid === null || authToken === null) {
+      alert('Please login');
+      return;
+    }
+
+    console.debug(uid);
+    console.debug(authToken);
 
     // SEND THIS TO DB
-    // const newContainer: UrlContainerRequest = {
-    //   uid: 'uid here',
-    //   title: title,
-    // };
+    const newContainer: UrlContainerRequest = {
+      uid: uid,
+      name: title,
+    };
 
-    onSuccess({ id: 2, title: title });
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    headers.set('Authorization', authToken);
 
-    handleClose();
+    const res = await fetch(apiUrl('/containers'), {
+      method: 'post',
+      body: JSON.stringify(newContainer),
+      headers: headers,
+    });
+
+    if (res.ok) {
+      const container = (await res.json()) as UrlContainerResponse;
+
+      console.debug('CONTAINER ADDED');
+
+      onSuccess({ id: container.containerID, title: title });
+
+      handleClose();
+    } else {
+      console.debug('FAILED');
+      console.debug(res);
+      alert('Some error occurred, Unable to save: ' + res.statusText);
+    }
   }
 
   return (

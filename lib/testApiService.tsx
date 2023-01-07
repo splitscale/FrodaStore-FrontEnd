@@ -1,5 +1,4 @@
-import { apiUrl } from './apiconfigs/getApiBaseUrl';
-import { logger } from './helpers/logger';
+import { apiUrl } from './apiconfigs/apiUrl';
 import { UserRequest } from './user/userRequest';
 
 export async function testApiService() {
@@ -22,12 +21,12 @@ async function register() {
   });
 
   if (res.status === 200) {
-    logger(res);
-    logger('SUCCESS');
+    console.debug(res);
+    console.debug('SUCCESS');
   }
 
-  logger('FAILED');
-  logger(res);
+  console.debug('FAILED');
+  console.debug(res);
 }
 
 async function login() {
@@ -42,11 +41,11 @@ async function login() {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  if (res.status === 200) {
-    logger(res);
-    logger('SUCCESS');
+  if (res.ok) {
+    console.debug(await res.json());
+    console.debug('SUCCESS');
+  } else {
+    console.debug('FAILED');
+    console.debug(res);
   }
-
-  logger('FAILED');
-  logger(res);
 }
