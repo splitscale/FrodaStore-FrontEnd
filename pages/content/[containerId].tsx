@@ -2,6 +2,7 @@ import axios from "axios";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { AddLink } from "../../components/AddLink";
+import { EditLink } from "../../components/Edit Link";
 import NavBar from "../../components/navBar";
 import { UrlContainer } from "../../lib/container/UrlContainer";
 import { Url } from "../../lib/url/Url";
@@ -31,6 +32,13 @@ export default function content() {
   const deleteLink = async (link: Url) => {
     await axios.delete(`${url}/${link.id}`);
     setLinks(links.filter((l: Url) => l.id !== link.id));
+  };
+
+  const editLink = (editedLink: UrlContainer) => {
+    const index = links.findIndex((c) => c.id === editedLink.id);
+    const updatedLinks = [...links];
+    updatedLinks[index] = editedLink;
+    setLinks(updatedLinks);
   };
 
   return (
@@ -68,7 +76,7 @@ export default function content() {
                   {link.name}
                 </td>
                 <td>
-                  <button className="btn btn-info py-2"> Edit </button>
+                <EditLink link={link} onEdit={editLink} />
                 </td>
                 <td>
                   <button
