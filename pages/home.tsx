@@ -3,6 +3,7 @@ import NavBar from "../components/navBar";
 import { useState, useEffect } from "react";
 import { AddContainer } from "../components/AddContainer";
 import { UrlContainer } from "../lib/container/UrlContainer";
+import { EditContainer } from "../components/EditContainer";
 import axios from "axios";
 import Link from "next/link";
 
@@ -14,7 +15,7 @@ export default function Home() {
   const loadContainers = async () => {
     try {
       const res = await axios.get(url);
-      setContainers(res.data);
+      setContainers(res.data.reverse());
     } catch (error) {
       console.error(error);
     }
@@ -31,6 +32,13 @@ export default function Home() {
   const deleteContainer = async (container: UrlContainer) => {
     await axios.delete(`${url}/${container.id}`);
     setContainers(containers.filter((c: UrlContainer) => c.id !== container.id));
+  };
+
+  const editContainer = (editedContainer: UrlContainer) => {
+    const index = containers.findIndex((c) => c.id === editedContainer.id);
+    const updatedContainers = [...containers];
+    updatedContainers[index] = editedContainer;
+    setContainers(updatedContainers);
   };
 
   return (
@@ -74,7 +82,7 @@ export default function Home() {
                   </Link>
                 </td>
                 <td>
-                  <button className="btn btn-info py-2"> Edit </button>
+                  <EditContainer container={container} onEdit={editContainer} />
                 </td>
                 <td>
                   <button
