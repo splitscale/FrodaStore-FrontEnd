@@ -46,18 +46,22 @@ export default function Login() {
       </Head>
 
       <Image
-        src="logo.png"
+        src="/logo.png"
         className="img-thumbnail w-25 h-25 border border-white"
         alt="logo.png"
+        width={500}
+        height={500}
       />
 
       <div className="row">
         <div className="col-sm-6 col-md-5 m-auto">
           <div className="d-flex justify-content-center">
             <Image
-              src="user-icon.png"
+              src="/user-icon.png"
               className="img-thumbnail border border-white w-24 h-24"
               alt="user-icon.png"
+              width={300}
+              height={300}
             />
           </div>
 

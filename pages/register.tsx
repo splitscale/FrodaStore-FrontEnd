@@ -2,6 +2,8 @@ import Head from 'next/head';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { UserRequest } from '../lib/user/userRequest';
+import Modal from 'react-bootstrap/Modal';
+import { registerInteractor } from '../lib/auth/registerInteractor';
 import Image from 'next/image';
 
 export default function Register() {
@@ -10,18 +12,28 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
 
+  const [show, setShow] = useState(false);
+  const closeModal = () => setShow(false);
+  const showModal = () => setShow(true);
+
   const register = async (event: FormEvent) => {
     event.preventDefault();
 
-    try {
-      // await axiosInstance.post('/auth/register', data);
+    if (password !== confirmPassword) {
+      return alert('password did not match');
+    }
 
-      router.push('/');
+    const isRegistered = await registerInteractor({ password, username });
+
+    if (isRegistered) {
+      showModal();
+
       setUsername('');
       setPassword('');
-    } catch (error: any) {
-      console.error(error);
-      alert('Invalid username or password');
+
+      setTimeout(() => router.push('/'), 5000);
+    } else {
+      alert('your weak! ' + username);
     }
   };
 
@@ -34,18 +46,22 @@ export default function Register() {
       </Head>
 
       <Image
-        src="logo.png"
+        src="/logo.png"
         className="img-thumbnail w-25 h-25 border border-white"
         alt="logo.png"
+        width={500}
+        height={500}
       />
 
       <div className="row">
         <div className="col-sm-6 col-md-5 m-auto">
           <div className="d-flex justify-content-center">
             <Image
-              src="user-icon.png"
+              src="/user-icon.png"
               className="img-thumbnail border border-white w-24 h-24"
               alt="user-icon.png"
+              width={300}
+              height={300}
             />
           </div>
 
@@ -82,6 +98,11 @@ export default function Register() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
+              <div id="passwordHelpBlock" className="form-text">
+                Your password must be 8-20 characters long, contain letters and
+                numbers, and must not contain spaces, special characters, or
+                emoji.
+              </div>
             </div>
 
             <div>
@@ -95,6 +116,11 @@ export default function Register() {
           </form>
         </div>
       </div>
+      <Modal show={show} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Registration Successful</Modal.Title>
+        </Modal.Header>
+      </Modal>
     </div>
   );
 }
