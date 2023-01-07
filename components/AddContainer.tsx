@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { FormEvent, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useRouter } from 'next/router';
+import { UrlContainer } from "../lib/container/UrlContainer";
 
-export function AddContainer() {
+export function AddContainer({ onSubmit }: { onSubmit: (container: UrlContainer) => void }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -12,39 +12,21 @@ export function AddContainer() {
 
   const [name, setName] = useState("");
 
-  const router = useRouter()
-
   const url = "http://jsonplaceholder.typicode.com/posts";
 
   const saveContainer = async (event: FormEvent) => {
     event.preventDefault();
 
     const containerTitle: any = {
-        name: name,
+      name: name,
     };
 
     try {
       const res = await axios.post(url, containerTitle);
-
-      router.push('/');
-      router.reload();
-
-      console.log(res.data)
-      
+      onSubmit(containerTitle);
+      console.log(res.data);
     } catch (err: any) {
-
-      if (err.response) {
-        // The client was given an error response (5xx, 4xx)
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      } else if (err.request) {
-        // The client never received a response, and the request was never left
-        console.log(err.request);
-      } else {
-        // Anything else
-        console.log("Error", err.message);
-      }
+      console.error(err.message)
     }
   };
 

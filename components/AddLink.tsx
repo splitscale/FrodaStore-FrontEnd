@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { FormEvent, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useRouter } from 'next/router';
+import { Url } from "../lib/url/Url";
 
-export function AddLink() {
+export function AddLink({ onSubmit }: { onSubmit: (link: Url) => void }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -12,39 +12,21 @@ export function AddLink() {
 
   const [name, setName] = useState("");
 
-  const router = useRouter()
-
   const url = "http://jsonplaceholder.typicode.com/posts";
 
   const saveLink = async (event: FormEvent) => {
     event.preventDefault();
 
-    const data: any = {
-        name: name,
+    const link: any = {
+      name: name,
     };
 
     try {
-      const res = await axios.post(url, data);
-      // setName(name)
-      router.push('/');
-      router.reload();
-
-      console.log(res.data)
-      
+      const res = await axios.post(url, link);
+      onSubmit(link);
+      console.log(res.data);
     } catch (err: any) {
-
-      if (err.response) {
-        // The client was given an error response (5xx, 4xx)
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      } else if (err.request) {
-        // The client never received a response, and the request was never left
-        console.log(err.request);
-      } else {
-        // Anything else
-        console.log("Error", err.message);
-      }
+      console.error(err.message)
     }
   };
 
@@ -56,7 +38,7 @@ export function AddLink() {
             from-pink-400 to-yellow-500 hover:from-green-500 hover:to-blue-500 ..."
           onClick={handleShow}
         >
-          Add Link
+          Add Container
         </Button>
       </div>
 
@@ -67,7 +49,7 @@ export function AddLink() {
 
         <Modal.Body>
           <label className="block text-gray-600 text-sm font-normal">
-            Link
+            Container Title
           </label>
           
           <input
@@ -80,7 +62,7 @@ export function AddLink() {
 
         <Modal.Footer>
           <Button variant="info" onClick={saveLink}>
-            Save
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

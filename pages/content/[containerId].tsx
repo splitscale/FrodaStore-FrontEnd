@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import { AddLink } from "../../components/AddLink";
 import NavBar from "../../components/navBar";
 import { UrlContainer } from "../../lib/container/UrlContainer";
+import { Url } from "../../lib/url/Url";
 
 export default function content() {
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState<Url[]>([]);
 
   const url = "http://jsonplaceholder.typicode.com/posts";
 
@@ -23,9 +24,13 @@ export default function content() {
     loadLinks();
   }, []);
 
-  const deleteLink = async (link: UrlContainer) => {
-    await axios.delete(url + "/" + link.id + link);
-    setLinks(links.filter((l: any) => l.id !== link.id));
+  const addNewLink = (newLink: Url) => {
+    setLinks([newLink, ...links]);
+  };
+
+  const deleteLink = async (link: Url) => {
+    await axios.delete(`${url}/${link.id}`);
+    setLinks(links.filter((l: Url) => l.id !== link.id));
   };
 
   return (
@@ -37,7 +42,7 @@ export default function content() {
 
       <NavBar />
 
-      <AddLink />
+      <AddLink onSubmit={addNewLink}/>
 
       <div className="flex flex-col justify-center items-center">
         <table className="outline outline-1 w-[80%] text-center rounded-t">
@@ -60,6 +65,7 @@ export default function content() {
               <tr key={link.id} className="border-b border-current">
                 <td className="text-left font-sans px-6 py-3">
                   {link.title}
+                  {link.name}
                 </td>
                 <td>
                   <button className="btn btn-info py-2"> Edit </button>

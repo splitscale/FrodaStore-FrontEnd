@@ -7,14 +7,14 @@ import axios from "axios";
 import Link from "next/link";
 
 export default function Home() {
-  const [containers, setContainers] = useState([]);
+  const [containers, setContainers] = useState<UrlContainer[]>([]);
 
   const url = "http://jsonplaceholder.typicode.com/posts";
 
   const loadContainers = async () => {
     try {
       const res = await axios.get(url);
-      setContainers(res.data.reverse());
+      setContainers(res.data);
     } catch (error) {
       console.error(error);
     }
@@ -24,9 +24,13 @@ export default function Home() {
     loadContainers();
   }, []);
 
+  const addNewContainer = (newContainer: UrlContainer) => {
+    setContainers([newContainer, ...containers]);
+  };
+
   const deleteContainer = async (container: UrlContainer) => {
-    await axios.delete(url + "/" + container.id + container);
-    setContainers(containers.filter((c: any) => c.id !== container.id));
+    await axios.delete(`${url}/${container.id}`);
+    setContainers(containers.filter((c: UrlContainer) => c.id !== container.id));
   };
 
   return (
@@ -39,7 +43,7 @@ export default function Home() {
 
       <NavBar />
 
-      <AddContainer />
+      <AddContainer onSubmit={addNewContainer} />
 
       <div className="flex flex-col justify-center items-center">
         <table className="outline outline-1 w-[80%] text-center rounded-t">
@@ -65,6 +69,7 @@ export default function Home() {
                     href="/content/[containerId]"
                     as={`/content/${container.id}`}
                   >
+                    {container.name}
                     {container.title}
                   </Link>
                 </td>
@@ -76,8 +81,7 @@ export default function Home() {
                     className="btn btn-danger py-2"
                     onClick={() => deleteContainer(container)}
                   >
-                    {" "}
-                    Delete{" "}
+                    Delete
                   </button>
                 </td>
               </tr>
