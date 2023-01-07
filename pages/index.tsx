@@ -1,39 +1,36 @@
-import Head from "next/head";
-import Link from "next/link";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/router";
-import { UserRequest } from "../lib/user/userRequest";
-import { axiosInstance } from "../lib/apiInteractor/apiInstance";
+import Head from 'next/head';
+import Link from 'next/link';
+import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/router';
+import { loginInteractor } from '../lib/auth/loginInteractor';
+import { parseJsonUser } from '../lib/user/parseJsonUser';
+import { logger } from '../lib/helpers/logger';
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
-
-  const data: UserRequest = {
-    username: username,
-    password: password,
-  };
 
   const handleLogin = async (event: FormEvent) => {
     event.preventDefault();
 
     try {
-      const res = await axiosInstance.post("/auth/login", data);
+      const res = await loginInteractor({ username, password });
 
-      let authToken = res.headers["authorization"];
-      console.log(authToken);
+      const authToken = res.headers.get('authorization');
+      const user = parseJsonUser(res.json());
 
-      if (authToken) {
-        localStorage.setItem("Authorization", authToken);
-        localStorage.setItem("uid", res.data.uid);
-        localStorage.setItem("username", res.data.username);
+      logger('User logged in: ' + user);
+      logger('Authorization: ' + authToken);
+
+      if (authToken && user) {
+        localStorage.setItem('Authorization', authToken);
+        localStorage.setItem('uid', user.uid);
       }
-      router.push("/home");
-      
+
+      router.push('/home');
     } catch (error: any) {
-      console.error(error.message);
-      alert("Invalid username or password");
+      alert('Invalid username or password');
     }
   };
 
