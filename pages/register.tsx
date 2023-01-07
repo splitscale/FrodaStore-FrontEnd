@@ -3,6 +3,8 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { UserRequest } from "../lib/user/userRequest";
 import { axiosInstance } from "../lib/apiInteractor/apiInstance";
+import Modal from "react-bootstrap/Modal"
+import axios from "axios";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -10,10 +12,18 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const data: UserRequest = {
     username: username,
     password: password,
   };
+
+  let usernameTaken: boolean;
+  let usernameInvalid: boolean;
+
   const register = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -23,10 +33,36 @@ export default function Register() {
       router.push("/");
       setUsername("");
       setPassword("");
+      handleShow();
+
 
     } catch (error: any) {
-      console.error(error);
-      alert("Invalid username or password");
+      if(usernameTaken === true){
+        document.getElementById("username").style.color = 'red'
+        alert("Username is taken");
+        console.error(error);
+      }
+
+      else if(usernameInvalid === true){
+        document.getElementById("username").style.color = 'red'
+        alert("Username is invalid");
+        console.error(error);
+      }
+      else {
+        document.getElementById("username").style.color = 'black'
+        console.error(error);
+      }
+
+      if(password != confirmPassword){
+        document.getElementById("confirmPassword").style.color = 'red'
+        alert("Password does not match");
+        console.error(error);
+      }
+
+      else{
+        document.getElementById("confirmPassword").style.color = 'black'
+        console.error(error);
+      }
     }
   };
 
@@ -100,6 +136,11 @@ export default function Register() {
           </form>
         </div>
       </div>
+       <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Registration Successful</Modal.Title>
+        </Modal.Header>
+      </Modal>
     </div>
   );
 }
