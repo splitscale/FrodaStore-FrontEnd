@@ -7,7 +7,6 @@ import { axiosInstance } from "../lib/apiInteractor/apiInstance";
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
 
   const data: UserRequest = {
@@ -76,16 +75,6 @@ export default function Register() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <input
-                className="form-control mt-4 border border-dark"
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
