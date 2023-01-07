@@ -1,32 +1,27 @@
-import Head from "next/head";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/router";
-import { UserRequest } from "../lib/user/userRequest";
-import { axiosInstance } from "../lib/apiInteractor/apiInstance";
+import Head from 'next/head';
+import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/router';
+import { UserRequest } from '../lib/user/userRequest';
+import Image from 'next/image';
 
 export default function Register() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
 
-  const data: UserRequest = {
-    username: username,
-    password: password,
-  };
   const register = async (event: FormEvent) => {
     event.preventDefault();
 
     try {
-      await axiosInstance.post("/auth/register", data);
+      // await axiosInstance.post('/auth/register', data);
 
-      router.push("/");
-      setUsername("");
-      setPassword("");
-
+      router.push('/');
+      setUsername('');
+      setPassword('');
     } catch (error: any) {
       console.error(error);
-      alert("Invalid username or password");
+      alert('Invalid username or password');
     }
   };
 
@@ -38,7 +33,7 @@ export default function Register() {
         <link rel="icon" href="/main-logo.png" />
       </Head>
 
-      <img
+      <Image
         src="logo.png"
         className="img-thumbnail w-25 h-25 border border-white"
         alt="logo.png"
@@ -47,7 +42,7 @@ export default function Register() {
       <div className="row">
         <div className="col-sm-6 col-md-5 m-auto">
           <div className="d-flex justify-content-center">
-            <img
+            <Image
               src="user-icon.png"
               className="img-thumbnail border border-white w-24 h-24"
               alt="user-icon.png"

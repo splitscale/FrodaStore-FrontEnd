@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { loginInteractor } from '../lib/auth/loginInteractor';
 import { User } from '../lib/user/User';
+import Image from 'next/image';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -44,7 +45,7 @@ export default function Login() {
         <link rel="icon" href="/main-logo.png" />
       </Head>
 
-      <img
+      <Image
         src="logo.png"
         className="img-thumbnail w-25 h-25 border border-white"
         alt="logo.png"
@@ -53,7 +54,7 @@ export default function Login() {
       <div className="row">
         <div className="col-sm-6 col-md-5 m-auto">
           <div className="d-flex justify-content-center">
-            <img
+            <Image
               src="user-icon.png"
               className="img-thumbnail border border-white w-24 h-24"
               alt="user-icon.png"
